@@ -1,7 +1,8 @@
 package main
 
-import "fmt"
+import "morpher-controller/route"
 
 func main() {
-	fmt.Println("Hello morpher-vm!")
+	r := route.InitRoute()
+	r.Run(":9000")
 }
