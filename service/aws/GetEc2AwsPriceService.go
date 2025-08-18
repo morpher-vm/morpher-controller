@@ -35,7 +35,7 @@ func (service *GetEc2AwsPriceService) GetEc2Price(
 
 	location, ok := regionToLocation[query.Region]
 	if !ok {
-		return nil, fmt.Errorf("Location 매핑 없음: %s", query.Region)
+		return nil, fmt.Errorf("Location mapping not found for region: %s", query.Region)
 	}
 
 	cfg, err := config.LoadDefaultConfig(ctx, config.WithRegion("us-east-1"))
