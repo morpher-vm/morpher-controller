@@ -1,21 +1,32 @@
 package route
 
 import (
+	"github.com/gin-contrib/cors"
 	"github.com/gin-gonic/gin"
-	controller "morpher-controller/controller/aws_controller"
-	service "morpher-controller/service/aws"
+	awsController "morpher-controller/controller/aws_controller"
+	infoController "morpher-controller/controller/info_controller"
+	awsService "morpher-controller/service/aws"
+	infoService "morpher-controller/service/info"
+	"time"
 )
 
 func InitRoute() *gin.Engine {
 	r := gin.Default()
 
-	ec2PriceService := service.NewGetEc2AwsPriceService()
-	AwsPriceController := controller.NewAwsPriceController(ec2PriceService)
+	corsConfig(r)
+
+	getInfoService := infoService.NewGetServerInfoService()
+	serverInfoController := infoController.NewServerInfoController(getInfoService)
+
+	getEc2PriceService := awsService.NewGetEc2AwsPriceService()
+	AwsPriceController := awsController.NewAwsPriceController(getEc2PriceService)
+
+	r.GET("/info", serverInfoController.GetServerInfo)
 
 	api := r.Group("/api/v1")
 	awsApi := api.Group("/aws")
 	{
-		awsApi.GET("/ec2", AwsPriceController.GetEc2AwsPrice)
+		awsApi.POST("/ec2", AwsPriceController.GetEc2AwsPrice)
 	}
 
 	return r
