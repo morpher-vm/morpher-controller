@@ -2,7 +2,6 @@ package agent
 
 type AgentSystemInfo struct {
 	ID   string   `json:"id"`
-	Name string   `json:"name"`
 	OS   OSInfo   `json:"os"`
 	CPU  CPUInfo  `json:"cpu"`
 	RAM  RAMInfo  `json:"ram"`
@@ -10,6 +9,7 @@ type AgentSystemInfo struct {
 }
 
 type OSInfo struct {
+	HostName      string `json:"hostname"`
 	Name          string `json:"name"`
 	Version       string `json:"version"`
 	KernelVersion string `json:"kernel_version"`
