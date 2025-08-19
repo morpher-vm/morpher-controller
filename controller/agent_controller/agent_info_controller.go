@@ -33,6 +33,9 @@ func (controller *AgentInfoController) CreateAgentInfo(c *gin.Context) {
 	}
 
 	controller.agentWriter.Save(requestAgentInfo)
+	c.JSON(http.StatusCreated, gin.H{
+		"message": "Agent info created successfully",
+	})
 }
 
 func (controller *AgentInfoController) GetAgentInfo(c *gin.Context) {
