@@ -6,25 +6,26 @@ import (
 	"time"
 )
 
-var serverStartTime = time.Now()
-
 type GetServerInfoService struct {
+	serverStartTime time.Time
 }
 
 func NewGetServerInfoService() *GetServerInfoService {
-	return &GetServerInfoService{}
+	return &GetServerInfoService{
+		serverStartTime: time.Now(),
+	}
 }
 
 func (service *GetServerInfoService) GetServerInfo() ServerInfo {
 	var serverInfo ServerInfo
 
 	if hostInfo, err := host.Info(); err == nil {
-		serverInfo = setServerInfo(hostInfo)
+		serverInfo = setServerInfo(hostInfo, service.serverStartTime)
 	}
 	return serverInfo
 }
 
-func setServerInfo(info *host.InfoStat) ServerInfo {
+func setServerInfo(info *host.InfoStat, serverStartTime time.Time) ServerInfo {
 	return ServerInfo{
 		OS: OS{
 			Name:            info.OS,
